@@ -321,18 +321,3 @@ data<-data.frame(cbind(iip[,2:3],iip[,6]))
 colnames(data)<-c("ASSETS", "LIABILITIES", "FI")
 range_write(ss,data,range=range)
 
-#FIXED EFFECTS MODEL
-install.packages("plm")
-library(plm)
-
-MODEL<-read_sheet("https://docs.google.com/spreadsheets/d/1ETONCGMmuDmUbq_q4Q-oSJR8dA7QDTr878yOiONxe5I/edit#gid=0",
-                          sheet = "base",
-                          col_names = TRUE,
-                          range = "A1:L103"
-)
-
-fixed <- plm(GROWTH ~ FI+GCF+GOV_GDP+POB+TRADE+CPI, data=MODEL, index=c("COUNTRY", "YEAR"), model="within")
-summary(fixed)
-
-random <- plm(GROWTH ~ FI+GCF+GOV_GDP+POB+TRADE+CPI, data=MODEL, index=c("COUNTRY", "YEAR"), model="random")
-summary(random)
